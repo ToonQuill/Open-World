@@ -171,6 +171,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 numberofJumpsRemaining = 2;
             }
+            if (velocity.y < 0)
+            {
+                velocity.y = 0;
+            }
         }
     }
 
