@@ -1,12 +1,12 @@
 {
     "position": {
-        "x": -363.6499938964844,
+        "x": -365.6499938964844,
         "y": 355.8960876464844,
         "z": -1331.0
     },
-    "npcName": "gggggggggg",
+    "npcName": "Walking NPC",
     "npcState": "",
     "npcPrefab": {
-        "instanceID": 13702
+        "instanceID": 13594
     }
 }

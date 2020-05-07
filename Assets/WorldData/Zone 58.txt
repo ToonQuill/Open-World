@@ -1,8 +1,0 @@
-{
-    "position": {
-        "x": 100.0,
-        "y": 0.0,
-        "z": -50.0
-    },
-    "gameObjectName": "Zone 58"
-}

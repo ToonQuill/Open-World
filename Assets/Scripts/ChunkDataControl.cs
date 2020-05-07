@@ -13,6 +13,7 @@ public class ChunkDataControl : MonoBehaviour
     float unloadedChunkDistToPlayer;
 
     public List<GameObject> chunksArray = new List<GameObject>();
+    public List<Vector3> zones = new List<Vector3>();
     private GameObject selectedPrefab;
 
     GameObject clone;
@@ -21,7 +22,6 @@ public class ChunkDataControl : MonoBehaviour
 
     string dataPath;
 
-    public List<Vector3> zones = new List<Vector3>();
 
     private string json;
     // Start is called before the first frame update
@@ -33,22 +33,22 @@ public class ChunkDataControl : MonoBehaviour
         {
             zones.Add(new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.z));
         }
-        SaveTerrain();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        SaveTerrain();
-        loadTerrain();
+        StartCoroutine(SaveTerrain(5f));
+        StartCoroutine(LoadTerrain(3f));
     }
 
-    private void SaveTerrain()
+    private IEnumerator SaveTerrain(float delay)
     {
+        yield return new WaitForSeconds(delay);
         foreach (Transform child in transform)
         {
             chunkDistToPlayer = Vector3.Distance(track.playerPos, child.transform.position);
-            if (chunkDistToPlayer > 750)
+            if (chunkDistToPlayer > 500)
             {
                 //if out of range, save gameobject name and position, then destroy - SAVE
                 WorldObjectData saveObject = new WorldObjectData
@@ -63,12 +63,13 @@ public class ChunkDataControl : MonoBehaviour
         }
     }
 
-    private void loadTerrain()
+    private IEnumerator LoadTerrain(float delay)
     {
+        yield return new WaitForSeconds(delay);
         //check if player is in range of any saved positions - LOAD
         for (int i = 1; i < chunksArray.Count; i++)
         {
-            if (File.Exists(dataPath + "Zone " + i + ".json") && Vector3.Distance(track.playerPos, zones[i - 1]) < 750)
+            if (File.Exists(dataPath + "Zone " + i + ".json") && Vector3.Distance(track.playerPos, zones[i - 1]) < 500)
             {
                 findChunkData = File.ReadAllText(dataPath + "Zone " + i + ".json");
                 WorldObjectData retrievedChunkData = JsonUtility.FromJson<WorldObjectData>(findChunkData);
@@ -87,6 +88,4 @@ public class ChunkDataControl : MonoBehaviour
         public Vector3 position;
         public string worldChunkName;
     }
-
-
 }
